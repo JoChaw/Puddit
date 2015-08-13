@@ -15,9 +15,11 @@ pb_request_body = {
         "body": "Gerbil"
         }
 
+reddit_request_url = 'http://www.reddit.com/r/{0}/new'.format(target_subreddit)
+reddit_response = requests.get(reddit_request_url, headers={'User-Agent': "PudditAgent"})
+
 r = requests.post(pb_request_url, headers=pb_request_headers, data=json.dumps(pb_request_body))
-print(r.status_code)
-print(r.text)
+print(reddit_response.text)
 
 
 
