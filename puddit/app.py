@@ -44,7 +44,7 @@ while(True):
     time.sleep(5)
     print(loop_count)
 
-    if loop_count > 50:
+    if loop_count > 200:
         already_pushed = []
         loop_count = 0
 
