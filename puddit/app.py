@@ -1,20 +1,31 @@
+import os
 import requests
 import json
 import time
 from bs4 import BeautifulSoup
 
-#Which subreddits would you like to monitor? (subreddits max)
-
 already_pushed = []
 loop_count = 0
 pb_request_url = 'https://api.pushbullet.com/v2/pushes'
-authorization = 'Bearer v1s0QnhullE8cI6AB6fEwUpBIrEr2vPEGeujw1WWxXJy8'
 content_type = 'application/json'
-pb_request_headers = {'Authorization': authorization, 'Content-Type': content_type}
 pb_request_body = {"type":"link"}
 
 target_subreddit = input("Subreddit you would like to monitor: ")
 reddit_request_url = 'http://www.reddit.com/r/{0}/new.json?count=25&sort=new'.format(target_subreddit)
+
+if 'access-token.txt' in os.listdir('.'):
+    with open('access-token.txt', 'r') as token_file:
+        token_content = token_file.readlines()
+        access_token = token_content[0]
+else:
+    print("It seems like you don't have a stored Pushbullet access token ... ")
+    access_token = input("Access Token (Will be stored for future use): ")
+
+    with open('access-token.txt', 'w+') as token_file:
+        token_file.write(access_token)
+
+authorization = 'Bearer {0}'.format(access_token)
+pb_request_headers = {'Authorization': authorization, 'Content-Type': content_type}
 
 print("---------------------------------------------------")
 print("Monitoring Subreddit - " + target_subreddit)
@@ -42,6 +53,7 @@ while(True):
         requests.post(pb_request_url, headers=pb_request_headers, data=json.dumps(pb_request_body))
         print("* New Post! - " + post[1])
         print("  " + post[2])
+        print("")
 
     loop_count += 1
     time.sleep(5)
