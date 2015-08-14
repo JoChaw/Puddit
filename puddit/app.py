@@ -2,7 +2,6 @@ import os
 import requests
 import json
 import time
-from bs4 import BeautifulSoup
 
 already_pushed = []
 loop_count = 0
