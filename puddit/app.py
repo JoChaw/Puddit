@@ -41,15 +41,17 @@ while(True):
         post_id = post_data['name']
         post_elasped_time = int(time.time()) - int(post_data['created_utc'])
 
-        if post_elasped_time < 180 and post_id not in already_pushed:
+        if post_elasped_time < 300 and post_id not in already_pushed:
             post_title = post_data['title']
             post_url = post_data['url']
-            push_list.append((post_id, post_title, post_url))
+            post_text = post_data['selftext']
+            push_list.append((post_id, post_title, post_url, post_text))
             already_pushed.append(post_id)
 
     for post in push_list:
         pb_request_body['title'] = post[1]
         pb_request_body['url'] = post[2]
+        pb_request_body['body'] = post[3]
         requests.post(pb_request_url, headers=pb_request_headers, data=json.dumps(pb_request_body))
         print("* New Post! - " + post[1])
         print("  " + post[2])
@@ -58,7 +60,7 @@ while(True):
     loop_count += 1
     time.sleep(5)
 
-    if loop_count > 200:
+    if loop_count > 500:
         already_pushed = []
         loop_count = 0
 
