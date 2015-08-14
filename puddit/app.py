@@ -25,19 +25,20 @@ while(True):
     reddit_site_table = reddit_soup.find_all('a', 'title', 'href')
     reddit_time_table = reddit_soup.find_all('time', 'live-timestamp')
     reddit_post_ids = reddit_soup.find_all("div", class_='thing')
+    post_ids = []
 
     for blah in reddit_post_ids:
-        print(blah['data-fullname'])
+        post_ids.append(blah['data-fullname'])
 
-    for blah, grah, mrah in zip(reddit_site_table, reddit_time_table, reddit_post_ids):
+    for blah, grah, mrah in zip(reddit_site_table, reddit_time_table, post_ids):
         time_passed = grah.contents[0]
 
         if time_passed == 'just now' or time_passed == 'a minute ago':
             pb_request_body['title'] = blah.contents[0]
             pb_request_body['url'] = 'http://reddit.com' + blah['href']
-            post_id = mrah.contents[0]
-            pb_request_body['body'] = post_id
+            pb_request_body['body'] = mrah
             requests.post(pb_request_url, headers=pb_request_headers, data=json.dumps(pb_request_body))
+
 
     time.sleep(5)
 
