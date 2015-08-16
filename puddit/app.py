@@ -26,9 +26,9 @@ else:
 authorization = 'Bearer {0}'.format(access_token)
 pb_request_headers = {'Authorization': authorization, 'Content-Type': content_type}
 
-print("---------------------------------------------------")
+print("====================================")
 print("Monitoring Subreddit - " + target_subreddit)
-print("---------------------------------------------------")
+print("====================================")
 
 while(True):
     reddit_response = requests.get(reddit_request_url, headers={'User-Agent': "PudditAgent"})
