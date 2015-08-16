@@ -6,10 +6,10 @@ import time
 already_pushed = []
 loop_count = 0
 pb_request_url = 'https://api.pushbullet.com/v2/pushes'
-content_type = 'application/json'
 pb_request_body = {"type":"link"}
+content_type = 'application/json'
 
-target_subreddit = input("Subreddit you would like to monitor: ")
+target_subreddit = input("Which subreddit would you like to monitor?: ")
 reddit_request_url = 'http://www.reddit.com/r/{0}/new.json?count=25&sort=new'.format(target_subreddit)
 
 if 'access-token.txt' in os.listdir('.'):
