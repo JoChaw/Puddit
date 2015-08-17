@@ -1,3 +1,7 @@
+'''
+Python script to monitor a subreddit for new posts.
+User will be notified via pushbullet when a new post is detected.
+'''
 import os
 import requests
 import json
