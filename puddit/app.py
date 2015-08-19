@@ -16,6 +16,10 @@ content_type = 'application/json'
 target_subreddit = input("Which subreddit would you like to monitor?: ")
 reddit_request_url = 'http://www.reddit.com/r/{0}/new.json?count=25&sort=new'.format(target_subreddit)
 
+'''
+Pushbullet Authentication.
+Look for Pushbullet user access token in 'access-token.txt'. If file not found, prompt user to input/store a new token.
+'''
 if 'access-token.txt' in os.listdir('.'):
     with open('access-token.txt', 'r') as token_file:
         token_content = token_file.readlines()
@@ -35,6 +39,7 @@ print("Monitoring Subreddit - " + target_subreddit)
 print("====================================")
 
 while(True):
+    #Fire off GET request to subreddit's 'new' section. Data comes back as JSON.
     reddit_response = requests.get(reddit_request_url, headers={'User-Agent': "PudditAgent"})
     reddit_response_json = json.loads(reddit_response.text)
     push_list = []
@@ -55,6 +60,8 @@ while(True):
         pb_request_body['title'] = post[1]
         pb_request_body['url'] = post[2]
         pb_request_body['body'] = post[3]
+
+        #Fire off POST request to Pushbullet to invoke message pushes to user's PB devices.
         requests.post(pb_request_url, headers=pb_request_headers, data=json.dumps(pb_request_body))
         print("* New Post! - " + post[1])
         print("  " + post[2])
