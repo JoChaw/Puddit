@@ -1,2 +1,5 @@
 # Puddit
-Subreddit monitoring program that alerts user of new posts using Pushbullet
+A small, simple script that allows users to monitor a subreddit of their choice and be notified via Pushbullet when new posts are detected.<br>
+Requires Python 3 and a Pushbullet account.
+
+
